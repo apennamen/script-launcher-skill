@@ -15,7 +15,6 @@ class ScriptLauncher(MycroftSkill):
             "connexion enceinte": "/home/pi/picroft-scripts/connect-speaker.sh",
             "déconnexion enceinte": "/home/pi/picroft-scripts/disconnect-speaker.sh",
         })
-        self.register_entity_file('script_alias.entity')
 
     @intent_handler('launcher.script.intent')
     def handle_launcher_script(self, message):
@@ -30,19 +29,18 @@ class ScriptLauncher(MycroftSkill):
         LOGGER.debug("Script to execute: %s" % script_alias)
         if script_to_exec is None:
             return self.speak_dialog('no.script.found')
-        
+
         # Execute process
         process = subprocess.Popen(script_to_exec,
                                    shell=True, stdout=subprocess.PIPE)
         process.wait()
-        
+
         # Handle script return code
         LOGGER.debug("Script return code: %s" % process.returncode)
         if process.returncode != 0:
             return self.speak_dialog('script.error')
-        
+
         self.speak_dialog('launcher.script')
-            
 
 
 def create_skill():
