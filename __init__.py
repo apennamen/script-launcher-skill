@@ -15,6 +15,7 @@ class ScriptLauncher(MycroftSkill):
             "connexion enceinte": "/home/pi/picroft-scripts/connect-speaker.sh",
             "déconnexion enceinte": "/home/pi/picroft-scripts/disconnect-speaker.sh",
         })
+        self.register_entity_file('script_alias.entity')
 
     @intent_handler('launcher.script.intent')
     def handle_launcher_script(self, message):
