@@ -1,4 +1,4 @@
-Execute script
-Launch script
-Execute command
-Launch command
+Execute script {script_alias}
+Launch script {script_alias}
+Execute command {script_alias}
+Launch command {script_alias}
