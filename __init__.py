@@ -13,8 +13,11 @@ class ScriptLauncher(MycroftSkill):
         process = subprocess.Popen("/home/pi/picroft-scripts/connect-speaker.sh", 
                                    shell=True, stdout=subprocess.PIPE)
         process.wait()
-        LOGGER.debug(process.returncode)
-        self.speak_dialog('launcher.script')
+        LOGGER.debug("Script return code: %s" % process.returncode)
+        if process.returncode == 0:
+            self.speak_dialog('launcher.script')
+        else:
+            self.speak_dialog('script.error')
 
 
 def create_skill():
