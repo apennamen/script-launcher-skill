@@ -5,8 +5,6 @@ skillMetadata:
       fields:
         - name: scripts_dict
           type: text
-          label: Key/Value (JSON) script dictionnary
+          label: [JSON] script dictionnary
           value: ""
-          placeholder: "{ \"connect speaker\": \"/home/pi/picroft-scripts/connect-speaker.sh\"}"
-      label: Configure scripts with a Json Key/Value object. Key is the script alias to detect in the intent
 
