@@ -1,4 +1,5 @@
 import subprocess
+import json
 from mycroft import MycroftSkill, intent_handler
 
 
@@ -8,11 +9,27 @@ class ScriptLauncher(MycroftSkill):
         MycroftSkill.__init__(self)
 
     def initialize(self):
-        self.scripts_registry.update({
-            "connexion enceinte": "/home/pi/picroft-scripts/connect-speaker.sh",
-            "déconnexion enceinte": "/home/pi/picroft-scripts/disconnect-speaker.sh",
-        })
         self.register_entity_file('script_alias.entity')
+        
+        self.settings_change_callback = self.on_settings_changed
+        self.on_settings_changed()
+    
+    def on_settings_changed(self):
+        self.init_script_registry()
+
+    def init_script_registry(self):
+        scripts_setting = self.settings.get('scripts_dict')
+        if scripts_setting is None:
+            return self.speak('settings.configuration.needed')
+        self.parse_script_registry_from_settings(scripts_setting)
+        
+    def parse_script_registry_from_settings(self, scripts_setting):
+        try:
+            self.scripts_registry = json.loads(scripts_setting)
+            self.log.debug("Configuration loaded")
+        except Exception:
+            self.log.error("Error parsing configuration from server")
+            self.speak_dialog('settings.configuration.failed')
 
     @intent_handler('launcher.script.intent')
     def handle_launcher_script(self, message):
